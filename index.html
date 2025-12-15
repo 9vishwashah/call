@@ -448,7 +448,10 @@ fetch("https://docs.google.com/spreadsheets/d/1QXUuzeAkqEUhul7Cpmz1kowOkrjh530Vv
     <img src="./Rushabhayan Logo E copy.png" alt="Rushabhayan Logo">
     <h2>Rushabhayan Invite Call</h2>
   </div>
-  
+  <div style="font-size:13px;color:#555;">
+  Volunteer: <strong id="volName"></strong>
+</div>
+
   <div class="script-box">
     <div class="script-title">📞 Script:</div>
     Pranam Jai Jinendra,<br><br>
@@ -468,6 +471,47 @@ fetch("https://docs.google.com/spreadsheets/d/1QXUuzeAkqEUhul7Cpmz1kowOkrjh530Vv
 </div>
 
 <script>
+// const CONTACTS_PER_VOLUNTEER = 500;
+
+// const params = new URLSearchParams(window.location.search);
+// const volunteerNumber = parseInt(params.get("vol")) || 1;
+// const startIndex = (volunteerNumber - 1) * CONTACTS_PER_VOLUNTEER;
+// const endIndex = startIndex + CONTACTS_PER_VOLUNTEER;
+
+// ===== Volunteer Mapping =====
+const CONTACTS_PER_VOLUNTEER = 500;
+
+const volunteerMap = {
+  naman: 0,   // 1–500
+  daksh: 1,   // 501–1000
+  umang: 2,    // 1001–1500
+  parv: 3 ,   // 1501–2000
+  keval: 4,
+  krish : 5,
+  pratham:6,
+  pranay:7,
+  srushti:8,
+  heet:9,
+  mahi:10,
+  siddharth:11,
+  hitesh:12
+      // 1501–2000
+};
+
+// Read volunteer name from URL (?v=naman)
+const params = new URLSearchParams(window.location.search);
+const volunteerKey = (params.get("v") || "").toLowerCase();
+
+// Default to first volunteer if invalid / missing
+const volunteerIndex =
+  volunteerMap.hasOwnProperty(volunteerKey)
+    ? volunteerMap[volunteerKey]
+    : 0;
+
+const startIndex = volunteerIndex * CONTACTS_PER_VOLUNTEER;
+const endIndex = startIndex + CONTACTS_PER_VOLUNTEER;
+
+// const MESSAGE = `YOUR MESSAGE HERE`.trim();
 const MESSAGE = `
 🌟 Rushabhayan 2 – The Jain Cultural Renaissance Begins! 🌟
 For the first time in centuries, the story of Raja Rushabhdev — the world's first teacher of 72 Kalas & 64 Arts — comes alive in a grand public celebration.
@@ -484,30 +528,40 @@ It's time for all Jain Sanghs to come together.
 👉 Share with all groups. Let every Jain family know. 🙏
 Register now: Rushabhayan.org/register
 `.trim();
+
+document.getElementById("volName").innerText =
+  volunteerKey ? volunteerKey.toUpperCase() : "NAMAN";
+
 const encodedMessage = encodeURIComponent(MESSAGE);
+
 fetch("https://docs.google.com/spreadsheets/d/1QXUuzeAkqEUhul7Cpmz1kowOkrjh530VvCZqfWrCSUI/export?format=csv&gid=0")
   .then(res => res.text())
   .then(csv => {
-    const rows = csv.split("\n").slice(1);
+    const rows = csv
+      .split("\n")
+      .slice(1)
+      .filter(r => r.trim())
+      .slice(startIndex, endIndex);
+
     const list = document.getElementById("list");
     list.classList.remove("loading");
     list.innerHTML = "";
-    let sr = 1;
-    rows.forEach(row => {
-      if (!row.trim()) return;
-      const [name, rawPhone] = row.split(",");
-      let digits = rawPhone.replace(/\D/g, "");
 
-      // if (digits.length === 10) digits = "91" + digits;
+    rows.forEach((row, i) => {
+      const [name, rawPhone] = row.split(",");
+      const digits = rawPhone.replace(/\D/g, "");
+
       list.innerHTML += `
         <div class="row">
-          <div class="sr">${sr++}</div>
+          <div class="sr">${startIndex + i + 1}</div>
           <div class="name">${name}</div>
+
           <a class="call-btn" href="tel:${digits}">
             <i class="fas fa-phone"></i> Call
           </a>
+
           <a class="wa-btn"
-             href="https://wa.me/${digits}?text=${encodedMessage}"
+             href="https://api.whatsapp.com/send?phone=${digits}&text=${encodedMessage}"
              target="_blank">
             <i class="fab fa-whatsapp"></i> WhatsApp
           </a>
@@ -518,7 +572,8 @@ fetch("https://docs.google.com/spreadsheets/d/1QXUuzeAkqEUhul7Cpmz1kowOkrjh530Vv
   .catch(err => {
     const list = document.getElementById("list");
     list.classList.remove("loading");
-    list.innerHTML = '<div style="text-align:center;color:#d32f2f;padding:20px;">⚠️ Failed to load contacts</div>';
+    list.innerHTML =
+      '<div style="text-align:center;color:#d32f2f;padding:20px;">⚠️ Failed to load contacts</div>';
     console.error(err);
   });
 </script>
