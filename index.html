@@ -505,12 +505,12 @@ const volunteerMap = {
   parv: 3 ,   // 1501–2000
   keval: 4,
   deepti : 5,
-  krish:6,
+  siddharth:6,
   pranay:7,
   srushti:8,
   heet:9,
   mahi:10,
-  siddharth:11,
+  krish:11,
   hitesh:12,
   pratham:13
       // 1501–2000
@@ -568,10 +568,12 @@ fetch("https://docs.google.com/spreadsheets/d/1QXUuzeAkqEUhul7Cpmz1kowOkrjh530Vv
     rows.forEach((row, i) => {
       const [name, rawPhone] = row.split(",");
       const digits = rawPhone.replace(/\D/g, "");
+//           // <div class="sr">${startIndex + i + 1}</div>
 
       list.innerHTML += `
         <div class="row">
-          <div class="sr">${startIndex + i + 1}</div>
+          <div class="sr">${startIndex + sr++}</div>
+
           <div class="name">${name}</div>
 
           <a class="call-btn" href="tel:${digits}">
