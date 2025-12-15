@@ -506,11 +506,11 @@ const volunteerMap = {
   keval: 4,
   deepti : 5,
   siddharth:6,
-  pranay:7,
+  krish:7,
   srushti:8,
   heet:9,
   mahi:10,
-  krish:11,
+  pranay:11,
   hitesh:12,
   pratham:13
       // 1501–2000
@@ -555,11 +555,17 @@ const encodedMessage = encodeURIComponent(MESSAGE);
 fetch("https://docs.google.com/spreadsheets/d/1QXUuzeAkqEUhul7Cpmz1kowOkrjh530VvCZqfWrCSUI/export?format=csv&gid=0")
   .then(res => res.text())
   .then(csv => {
-    const rows = csv
-      .split("\n")
-      .slice(1)
-      .filter(r => r.trim())
-      .slice(startIndex, endIndex);
+    // const rows = csv
+    //   .split("\n")
+    //   .slice(1)
+    //   .filter(r => r.trim())
+    //   .slice(startIndex, endIndex);
+
+  const rows = csv
+  .split("\n")
+  .slice(1)
+  .slice(startIndex, endIndex)
+  .filter(r => r.trim());
 
     const list = document.getElementById("list");
     list.classList.remove("loading");
