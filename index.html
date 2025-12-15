@@ -568,12 +568,10 @@ fetch("https://docs.google.com/spreadsheets/d/1QXUuzeAkqEUhul7Cpmz1kowOkrjh530Vv
     rows.forEach((row, i) => {
       const [name, rawPhone] = row.split(",");
       const digits = rawPhone.replace(/\D/g, "");
-//           // <div class="sr">${startIndex + i + 1}</div>
 
       list.innerHTML += `
         <div class="row">
-          <div class="sr">${startIndex + sr++}</div>
-
+          <div class="sr">${startIndex + i + 1}</div>
           <div class="name">${name}</div>
 
           <a class="call-btn" href="tel:${digits}">
