@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
@@ -155,6 +155,31 @@
   Loading...
 </div>
 <script>
+const MESSAGE = `
+🌟 Rushabhayan 2 – The Jain Cultural Renaissance Begins! 🌟
+
+For the first time in centuries, the story of Raja Rushabhdev — the world’s first teacher of 72 Kalas & 64 Arts — comes alive in a grand public celebration.
+
+✨ Witness:
+• Live demonstrations of ancient Jain arts
+• Cultural showcases of niti–riti, music, dance & traditions
+• Powerful messages from spiritual leaders
+• A historic gathering uniting Jain samaj and global traditions
+
+This is not just an event…
+It’s a civilisational revival.
+It’s time for all Jain Sanghs to come together.
+
+📅 19–21 December 2025
+📍 Kora Kendra Ground 4, Borivali (W), Mumbai
+
+👉 Share with all groups. Let every Jain family know. 🙏
+
+Register now: Rushabhayan.org/register
+`.trim();
+
+const encodedMessage = encodeURIComponent(MESSAGE);
+
 fetch("https://docs.google.com/spreadsheets/d/1QXUuzeAkqEUhul7Cpmz1kowOkrjh530VvCZqfWrCSUI/export?format=csv&gid=0")
   .then(res => res.text())
   .then(csv => {
@@ -169,12 +194,8 @@ fetch("https://docs.google.com/spreadsheets/d/1QXUuzeAkqEUhul7Cpmz1kowOkrjh530Vv
 
       const [name, rawPhone] = row.split(",");
 
-      let digits = rawPhone.replace(/\D/g, ""); // keep only numbers
-
-      // If 10-digit Indian number, prefix country code
-      if (digits.length === 10) {
-        digits = "91" + digits;
-      }
+      let digits = rawPhone.replace(/\D/g, "");
+      if (digits.length === 10) digits = "91" + digits;
 
       list.innerHTML += `
         <div class="row">
@@ -186,7 +207,7 @@ fetch("https://docs.google.com/spreadsheets/d/1QXUuzeAkqEUhul7Cpmz1kowOkrjh530Vv
           </a>
 
           <a class="wa-btn"
-             href="https://wa.me/${digits}"
+             href="https://wa.me/${digits}?text=${encodedMessage}"
              target="_blank">
             WhatsApp
           </a>
@@ -201,5 +222,304 @@ fetch("https://docs.google.com/spreadsheets/d/1QXUuzeAkqEUhul7Cpmz1kowOkrjh530Vv
 </script>
 
 
+
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Rushabhayan Invite Call</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+  }
+  
+  .container {
+    max-width: 540px;
+    margin: 0 auto;
+    padding: 12px;
+  }
+  
+  /* Header Styling */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+    background: #ffffff;
+    padding: 14px 16px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  
+  .header img {
+    height: 52px;
+    width: auto;
+    flex-shrink: 0;
+  }
+  
+  .header h2 {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1.3;
+  }
+  
+  /* Script Box - Improved readability */
+  .script-box {
+    background: linear-gradient(135deg, #fffbf0 0%, #fff8e1 100%);
+    border-left: 4px solid #f9a825;
+    padding: 16px 18px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 1.7;
+    box-shadow: 0 2px 6px rgba(249,168,37,0.12);
+    color: #333;
+  }
+  
+  .script-title {
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-size: 15px;
+    color: #d68000;
+    letter-spacing: 0.3px;
+  }
+  
+  .script-box strong {
+    color: #d68000;
+  }
+  
+  /* Contact Cards */
+  .list-container {
+    margin-bottom: 20px;
+  }
+  
+  .row {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    display: grid;
+    grid-template-columns: 32px 1fr auto auto;
+    gap: 10px;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  
+  .row:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  }
+  
+  .sr {
+    font-weight: 700;
+    color: #666;
+    font-size: 15px;
+  }
+  
+  .name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a1a1a;
+    line-height: 1.4;
+  }
+  
+  /* Call Button */
+  .call-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-align: center;
+    background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 13px;
+    box-shadow: 0 2px 6px rgba(46,125,50,0.25);
+    transition: all 0.2s ease;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    white-space: nowrap;
+  }
+  
+  .call-btn:active {
+    background: linear-gradient(135deg, #1b5e20 0%, #0d4714 100%);
+    transform: scale(0.97);
+    box-shadow: 0 1px 3px rgba(46,125,50,0.3);
+  }
+  
+  /* WhatsApp Button */
+  .wa-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-align: center;
+    background: linear-gradient(135deg, #25D366 0%, #1ebe57 100%);
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 13px;
+    box-shadow: 0 2px 6px rgba(37,211,102,0.25);
+    transition: all 0.2s ease;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    white-space: nowrap;
+  }
+  
+  .wa-btn:active {
+    background: linear-gradient(135deg, #1ebe57 0%, #17a347 100%);
+    transform: scale(0.97);
+    box-shadow: 0 1px 3px rgba(37,211,102,0.3);
+  }
+  
+  /* Icon sizing */
+  .call-btn i,
+  .wa-btn i {
+    font-size: 14px;
+  }
+  
+  /* Loading State */
+  .list-container.loading {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+    font-size: 15px;
+  }
+  
+  /* Responsive adjustments for very small screens */
+  @media (max-width: 360px) {
+    .header h2 {
+      font-size: 17px;
+    }
+    
+    .call-btn,
+    .wa-btn {
+      font-size: 14px;
+      padding: 12px 0;
+    }
+    
+    .name {
+      font-size: 15px;
+    }
+  }
+  
+  /* Larger phones */
+  @media (min-width: 420px) {
+    .container {
+      padding: 16px;
+    }
+    
+    .row {
+      padding: 16px 18px;
+    }
+    
+    .call-btn,
+    .wa-btn {
+      padding: 14px 0;
+      font-size: 16px;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <img src="./Rushabhayan Logo E copy.png" alt="Rushabhayan Logo">
+    <h2>Rushabhayan Invite Call</h2>
+  </div>
+  
+  <div class="script-box">
+    <div class="script-title">📞 Script:</div>
+    Pranam Jai Jinendra,<br><br>
+    <strong>Rushabhayan – भारतीय संस्कृति के पुरोधा</strong><br><br>
+    Date <strong>19 / 20 / 21 December</strong> को
+    <strong>Kora Kendra Ground, Borivali</strong> में
+    एक ऐतिहासिक सम्मेलन होने जा रहा है।<br><br>
+    आप सब परिवार के साथ जरूर पधारे।
+    कृपया अपना रजिस्ट्रेशन करवा लीजिए,
+    जिससे आपको <strong>फास्ट चैनल</strong> से एंट्री हो सके।<br><br>
+    धन्यवाद।
+  </div>
+  
+  <div class="list-container loading" id="list">
+    Loading contacts...
+  </div>
+</div>
+
+<script>
+const MESSAGE = `
+🌟 Rushabhayan 2 – The Jain Cultural Renaissance Begins! 🌟
+For the first time in centuries, the story of Raja Rushabhdev — the world's first teacher of 72 Kalas & 64 Arts — comes alive in a grand public celebration.
+✨ Witness:
+• Live demonstrations of ancient Jain arts
+• Cultural showcases of niti–riti, music, dance & traditions
+• Powerful messages from spiritual leaders
+• A historic gathering uniting Jain samaj and global traditions
+This is not just an event…
+It's a civilisational revival.
+It's time for all Jain Sanghs to come together.
+📅 19–21 December 2025
+📍 Kora Kendra Ground 4, Borivali (W), Mumbai
+👉 Share with all groups. Let every Jain family know. 🙏
+Register now: Rushabhayan.org/register
+`.trim();
+const encodedMessage = encodeURIComponent(MESSAGE);
+fetch("https://docs.google.com/spreadsheets/d/1QXUuzeAkqEUhul7Cpmz1kowOkrjh530VvCZqfWrCSUI/export?format=csv&gid=0")
+  .then(res => res.text())
+  .then(csv => {
+    const rows = csv.split("\n").slice(1);
+    const list = document.getElementById("list");
+    list.classList.remove("loading");
+    list.innerHTML = "";
+    let sr = 1;
+    rows.forEach(row => {
+      if (!row.trim()) return;
+      const [name, rawPhone] = row.split(",");
+      let digits = rawPhone.replace(/\D/g, "");
+      if (digits.length === 10) digits = "91" + digits;
+      list.innerHTML += `
+        <div class="row">
+          <div class="sr">${sr++}</div>
+          <div class="name">${name}</div>
+          <a class="call-btn" href="tel:${digits}">
+            <i class="fas fa-phone"></i> Call
+          </a>
+          <a class="wa-btn"
+             href="https://wa.me/${digits}?text=${encodedMessage}"
+             target="_blank">
+            <i class="fab fa-whatsapp"></i> WhatsApp
+          </a>
+        </div>
+      `;
+    });
+  })
+  .catch(err => {
+    const list = document.getElementById("list");
+    list.classList.remove("loading");
+    list.innerHTML = '<div style="text-align:center;color:#d32f2f;padding:20px;">⚠️ Failed to load contacts</div>';
+    console.error(err);
+  });
+</script>
 </body>
 </html>
