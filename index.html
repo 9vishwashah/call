@@ -91,6 +91,39 @@
   .call-btn:active {
     background: #256528;
   }
+  .row {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  display: grid;
+  grid-template-columns: 40px 1fr 70px 90px;
+  align-items: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.call-btn {
+  text-align: center;
+  background: #2e7d32;
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 0;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.wa-btn {
+  text-align: center;
+  background: #25D366;
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 0;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
 </style>
 </head>
 
@@ -121,7 +154,6 @@
 <div class="list-container" id="list">
   Loading...
 </div>
-
 <script>
 fetch("https://docs.google.com/spreadsheets/d/1QXUuzeAkqEUhul7Cpmz1kowOkrjh530VvCZqfWrCSUI/export?format=csv&gid=0")
   .then(res => res.text())
@@ -134,13 +166,30 @@ fetch("https://docs.google.com/spreadsheets/d/1QXUuzeAkqEUhul7Cpmz1kowOkrjh530Vv
 
     rows.forEach(row => {
       if (!row.trim()) return;
-      const [name, phone] = row.split(",");
+
+      const [name, rawPhone] = row.split(",");
+
+      let digits = rawPhone.replace(/\D/g, ""); // keep only numbers
+
+      // If 10-digit Indian number, prefix country code
+      if (digits.length === 10) {
+        digits = "91" + digits;
+      }
 
       list.innerHTML += `
         <div class="row">
           <div class="sr">${sr++}</div>
           <div class="name">${name}</div>
-          <a class="call-btn" href="tel:${phone.trim()}">Call</a>
+
+          <a class="call-btn" href="tel:${digits}">
+            Call
+          </a>
+
+          <a class="wa-btn"
+             href="https://wa.me/${digits}"
+             target="_blank">
+            WhatsApp
+          </a>
         </div>
       `;
     });
@@ -150,6 +199,7 @@ fetch("https://docs.google.com/spreadsheets/d/1QXUuzeAkqEUhul7Cpmz1kowOkrjh530Vv
     console.error(err);
   });
 </script>
+
 
 </body>
 </html>
