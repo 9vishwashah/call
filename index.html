@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Call List</title>
+<title>Rushabhayan Invite Call</title>
 
 <style>
   body {
@@ -12,13 +12,46 @@
     margin: 0;
     padding: 16px;
   }
+  .header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.header img {
+  height: 48px;
+  width: auto;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+}
+
 
   h2 {
-    margin-bottom: 16px;
+    margin-bottom: 8px;
+  }
+
+  .script-box {
+    background: #fff8e1;
+    border-left: 5px solid #f9a825;
+    padding: 12px 14px;
+    border-radius: 8px;
+    margin-bottom: 18px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .script-title {
+    font-weight: 700;
+    margin-bottom: 6px;
   }
 
   .list-container {
-    max-width: 500px;
+    max-width: 520px;
     margin: auto;
   }
 
@@ -62,8 +95,28 @@
 </head>
 
 <body>
+<div class="header">
+  <img src="./Rushabhayan Logo E copy.png" alt="Rushabhayan Logo">
+  <h2>Rushabhayan Invite Call</h2>
+</div>
 
-<h2>📞 Call List</h2>
+
+<div class="script-box">
+  <div class="script-title">Script:</div>
+  Pranam Jai Jinendra,<br><br>
+
+  <strong>Rushabhayan – भारतीय संस्कृति के पुरोधा</strong><br><br>
+
+  Date <strong>19 / 20 / 21 December</strong> को
+  <strong>Kora Kendra Ground, Borivali</strong> में
+  एक ऐतिहासिक सम्मेलन होने जा रहा है।<br><br>
+
+  आप सब परिवार के साथ जरूर पधारे।
+  कृपया अपना रजिस्ट्रेशन करवा लीजिए,
+  जिससे आपको <strong>फास्ट चैनल</strong> से एंट्री हो सके।<br><br>
+
+  धन्यवाद।
+</div>
 
 <div class="list-container" id="list">
   Loading...
@@ -81,7 +134,6 @@ fetch("https://docs.google.com/spreadsheets/d/1QXUuzeAkqEUhul7Cpmz1kowOkrjh530Vv
 
     rows.forEach(row => {
       if (!row.trim()) return;
-
       const [name, phone] = row.split(",");
 
       list.innerHTML += `
