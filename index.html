@@ -497,7 +497,8 @@ fetch("https://docs.google.com/spreadsheets/d/1QXUuzeAkqEUhul7Cpmz1kowOkrjh530Vv
       if (!row.trim()) return;
       const [name, rawPhone] = row.split(",");
       let digits = rawPhone.replace(/\D/g, "");
-      if (digits.length === 10) digits = "91" + digits;
+
+      // if (digits.length === 10) digits = "91" + digits;
       list.innerHTML += `
         <div class="row">
           <div class="sr">${sr++}</div>
