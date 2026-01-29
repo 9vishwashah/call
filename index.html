@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>PRABHAG 16 Prakash More "आपला माणूस! आपला भाऊ!!"</title>
-<link rel="icon" href="./Logo_of_the_Bharatiya_Janata_Party.svg.png" type="image/png">
-<meta property="og:image" content="https://prabhag16.netlify.app/Logo_of_the_Bharatiya_Janata_Party.svg.png"/>
+<title>LVJST VOLUNTEER CALL </title>
+<link rel="icon" href="./lvjst-logo.png" type="image/png">
+<meta property="og:image" content="https://lvjstcall.netlify.app/lvjst-logo.png"/>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 <style>
@@ -167,6 +167,16 @@
     transform: scale(0.97);
     box-shadow: 0 1px 3px rgba(37,211,102,0.3);
   }
+
+  .status.called {
+  background:#e8f5e9;
+  color:#2e7d32;
+  padding:4px 8px;
+  border-radius:6px;
+  font-size:12px;
+  font-weight:600;
+}
+
   
   /* Icon sizing */
   .call-btn i,
@@ -237,11 +247,11 @@
 <body>
 <div class="container">
   <div class="header">
-    <img src="./Logo_of_the_Bharatiya_Janata_Party.svg.png" alt="Rushabhayan Logo">
-    <h2>PRABHAG 16 <br>Prakash More Bhau</h2>
+    <img src="./lvjst-logo.png" alt="Rushabhayan Logo">
+    <h2>LVJST <br>CALL</h2>
   </div>
   <div class="volunteer-section">
-  Volunteer: <strong id="volName"></strong>
+  Volunteer Name: <strong id="volName"></strong>
 </div>
 
   <div class="script-box">
@@ -263,52 +273,80 @@
     Loading contacts...
   </div>
 </div>
-
 <script>
-// const CONTACTS_PER_VOLUNTEER = 500;
-
-// const params = new URLSearchParams(window.location.search);
-// const volunteerNumber = parseInt(params.get("vol")) || 1;
-// const startIndex = (volunteerNumber - 1) * CONTACTS_PER_VOLUNTEER;
-// const endIndex = startIndex + CONTACTS_PER_VOLUNTEER;
+// ===== CONFIG =====
+const CONTACTS_PER_VOLUNTEER = 100;
 
 // ===== Volunteer Mapping =====
-const CONTACTS_PER_VOLUNTEER = 500;
-
 const volunteerMap = {
-  pari: 0,   
-  daksh: 1,   
-  umang: 2,   
-  volunteer: 3 ,   
-  keval: 4,
-  deepti : 5,
-  siddharth:6,
-  krish:7,
-  srushti:8,
-  heet:9,
-  mahi:10,
-  umangkarnavat:11,
-  hitesh:12,
-  pratham:13,
-  v1:14,
-  v2:15,
-  v3:16
+  volunteer1: 0,
+  volunteer2: 1,
+  volunteer3: 2,
+  volunteer4: 3,
+  volunteer5: 4,
+  volunteer6: 5,
+  volunteer7: 6,
+  volunteer8: 7,
+  volunteer9: 8,
+  volunteer10: 9,
+  volunteer11: 10,
+  volunteer12: 11,
+  volunteer13: 12,
+  volunteer14: 13,
+  volunteer15: 14,
+  volunteer16: 15,
+  volunteer17: 16
 };
 
-// Read volunteer name from URL (?v=naman)
+// ===== Read URL Param =====
 const params = new URLSearchParams(window.location.search);
 const volunteerKey = (params.get("v") || "").toLowerCase();
 
-// Default to first volunteer if invalid / missing
-const volunteerIndex =
-  volunteerMap.hasOwnProperty(volunteerKey)
-    ? volunteerMap[volunteerKey]
-    : 0;
+// ===== DOM Elements =====
+const volNameEl = document.getElementById("volName");
+const listEl = document.getElementById("list");
+const scriptBox = document.querySelector(".script-box");
 
+// ===== Validate Volunteer =====
+const isValidVolunteer = volunteerMap.hasOwnProperty(volunteerKey);
+
+// ❌ INVALID OR MISSING VOLUNTEER
+if (!isValidVolunteer) {
+  // Hide volunteer name
+  volNameEl.innerText = "";
+
+  // Hide script
+  scriptBox.style.display = "none";
+
+  // Show error message
+  listEl.classList.remove("loading");
+  listEl.innerHTML = `
+    <div style="
+      text-align:center;
+      padding:30px;
+      color:#d32f2f;
+      font-size:16px;
+      font-weight:600;">
+      🚫 Volunteer not found<br>
+      <small style="color:#777;font-weight:400;">
+        Invalid or unauthorized link
+      </small>
+    </div>
+  `;
+
+  // Stop further execution
+  throw new Error("Invalid volunteer key");
+}
+
+// ✅ VALID VOLUNTEER CONTINUES
+const volunteerIndex = volunteerMap[volunteerKey];
 const startIndex = volunteerIndex * CONTACTS_PER_VOLUNTEER;
 const endIndex = startIndex + CONTACTS_PER_VOLUNTEER;
 
-// const MESSAGE = `YOUR MESSAGE HERE`.trim();
+// Show volunteer name
+volNameEl.innerText = volunteerKey.toUpperCase();
+
+// ===== WhatsApp Message =====
 const MESSAGE = `
 🚩 निवडणूक प्रचार संदेश 🚩
 सप्रेम नमस्कार, 🙏
@@ -319,63 +357,71 @@ const MESSAGE = `
 आपले उमेदवार: 👨‍💼 श्री. प्रकाश (भाऊ) मोरे 👩‍💼 सौ. शिल्पा प्रकाश मोरे
 "आपला माणूस! आपला भाऊ!!"
 अधिक माहितीसाठी खालील लिंकवर क्लिक करा: 🔗 [येथे तुमची लिंक टाका]
-तुमचे एक मत, प्रगतीचा नवा मार्ग! जास्तीत जास्त संख्येने उपस्थित राहून आपला हक्क बजवा.
+तुमचे एक मत, प्रगतीचा नवा मार्ग!
 धन्यवाद! भारतीय जनता पार्टी, प्रभाग क्र. १६, वाशी.
 `.trim();
 
-document.getElementById("volName").innerText =
-  volunteerKey ? volunteerKey.toUpperCase() : "PARI";
-
 const encodedMessage = encodeURIComponent(MESSAGE);
 
+function trackCall(name, phone) {
+  fetch("https://script.google.com/macros/s/AKfycby_497bE4f96xxoSxG5-iOxHqNHYR9xb0N25WpLArn4bwl37Wnp1tdzsh78u2T4j49Y8w/exec", {
+    method: "POST",
+    body: JSON.stringify({
+      volunteer: volunteerKey,
+      name: name,
+      phone: phone,
+      status: "called"
+    })
+  }).catch(err => console.error("Tracking failed", err));
+}
+
+
+// ===== Fetch Contacts =====
 fetch("https://docs.google.com/spreadsheets/d/1QXUuzeAkqEUhul7Cpmz1kowOkrjh530VvCZqfWrCSUI/export?format=csv&gid=0")
   .then(res => res.text())
   .then(csv => {
-    // const rows = csv
-    //   .split("\n")
-    //   .slice(1)
-    //   .filter(r => r.trim())
-    //   .slice(startIndex, endIndex);
+    const rows = csv
+      .split("\n")
+      .slice(1)
+      .slice(startIndex, endIndex)
+      .filter(r => r.trim());
 
-  const rows = csv
-  .split("\n")
-  .slice(1)
-  .slice(startIndex, endIndex)
-  .filter(r => r.trim());
-
-    const list = document.getElementById("list");
-    list.classList.remove("loading");
-    list.innerHTML = "";
+    listEl.classList.remove("loading");
+    listEl.innerHTML = "";
 
     rows.forEach((row, i) => {
       const [name, rawPhone] = row.split(",");
       const digits = rawPhone.replace(/\D/g, "");
 
-      list.innerHTML += `
+      listEl.innerHTML += `
         <div class="row">
           <div class="sr">${startIndex + i + 1}</div>
           <div class="name">${name}</div>
 
-          <a class="call-btn" href="tel:${digits}">
-            <i class="fas fa-phone"></i> Call
-          </a>
+<a class="call-btn"
+   href="tel:${digits}"
+   onclick="trackCall('${name}','${digits}')">
+   <i class="fas fa-phone"></i> Call
+</a>
+
+<span class="status called">CALLED</span>
 
           <a class="wa-btn"
              href="https://api.whatsapp.com/send?phone=${digits}&text=${encodedMessage}"
              target="_blank">
-            <i class="fab fa-whatsapp"></i> 
+            <i class="fab fa-whatsapp"></i>
           </a>
         </div>
       `;
     });
   })
   .catch(err => {
-    const list = document.getElementById("list");
-    list.classList.remove("loading");
-    list.innerHTML =
+    listEl.classList.remove("loading");
+    listEl.innerHTML =
       '<div style="text-align:center;color:#d32f2f;padding:20px;">⚠️ Failed to load contacts</div>';
     console.error(err);
   });
 </script>
+
 </body>
 </html>
