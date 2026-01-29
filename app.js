@@ -39,7 +39,7 @@ const VOLUNTEER_MAP = {
     volunteer10: 9,
     siddharth: 10,
     parv: 11,
-    volunteer13: 12,
+    keval: 12,
     volunteer14: 13,
     volunteer15: 14,
     volunteer16: 15,
@@ -180,20 +180,22 @@ function renderError(msg) {
 function renderContacts() {
     UI.contactList.innerHTML = "";
 
-    if (State.contacts.length === 0) {
-        UI.contactList.innerHTML = `<div class="empty-state"><p>No contacts assigned.</p></div>`;
+    // Show only PENDING contacts (not called yet)
+    const pendingContacts = State.contacts.filter(c => !c.isCalled);
+
+    if (pendingContacts.length === 0) {
+        UI.contactList.innerHTML = `<div class="empty-state"><p>No contacts assigned or all completed! 🎉</p></div>`;
         return;
     }
 
-    State.contacts.forEach(contact => {
+    pendingContacts.forEach(contact => {
         const card = document.createElement("div");
-        card.className = `contact-card ${contact.isCalled ? "called" : ""} fade-in`;
+        card.className = `contact-card fade-in`;
         card.id = `card-${contact.phone}`;
 
         // Status text
-        const statusText = contact.isCalled ?
-            `<span class="contact-status"><i class="fas fa-check"></i> DONE</span>` :
-            `<span class="contact-status"><i class="far fa-circle"></i> PENDING</span>`;
+        // (Simplified since we only show pending now, but keeping structure if we revert)
+        const statusText = `<span class="contact-status"><i class="far fa-circle"></i> PENDING</span>`;
 
         // WhatsApp Link
         const waLink = `https://api.whatsapp.com/send?phone=${contact.phone}&text=${encodeURIComponent(CONFIG.MESSAGE_TEMPLATE)}`;
@@ -245,10 +247,21 @@ window.handleCall = function (phone, name) {
         // 3. Update UI Card immediately (optimistic UI)
         const card = document.getElementById(`card-${phone}`);
         if (card) {
-            card.classList.add("called");
-            const statusEl = card.querySelector(".contact-status");
-            statusEl.innerHTML = `<i class="fas fa-check"></i> DONE`;
-            statusEl.parentElement.innerHTML = `<span class="serial-badge">#${contact.id}</span> ${statusEl.outerHTML}`; // hacky re-render
+            // Animate removal
+            card.style.transition = "all 0.5s ease-out";
+            card.style.opacity = "0";
+            card.style.transform = "translateX(50px)"; // Slide right
+            card.style.maxHeight = "0";
+            card.style.padding = "0";
+            card.style.marginTop = "0";
+
+            // Remove from DOM after animation
+            setTimeout(() => {
+                card.remove();
+                // Check if list is empty, show empty state if so
+                const remaining = document.querySelectorAll('.contact-card').length;
+                if (remaining === 0) renderContacts();
+            }, 500);
         }
 
         showToast("Call marked as completed ✔");
