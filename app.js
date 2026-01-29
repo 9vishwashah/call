@@ -37,7 +37,7 @@ const VOLUNTEER_MAP = {
     volunteer8: 7,
     volunteer9: 8,
     volunteer10: 9,
-    volunteer11: 10,
+    siddharth: 10,
     volunteer12: 11,
     volunteer13: 12,
     volunteer14: 13,
