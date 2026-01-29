@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LVJST VOLUNTEER CALL </title>
+<link rel="icon" href="./lvjst-logo.png" type="image/png">
+<meta property="og:image" content="https://lvjstcall.netlify.app/lvjst-logo.png"/>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+  }
+  
+  .container {
+    max-width: 540px;
+    margin: 0 auto;
+    padding: 12px;
+  }
+  
+  /* Header Styling */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+    background: #ffffff;
+    padding: 14px 16px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  
+  .header img {
+    height: 52px;
+    width: auto;
+    flex-shrink: 0;
+  }
+  
+  .header h2 {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1.3;
+  }
+  
+  /* Script Box - Improved readability */
+  .script-box {
+    background: linear-gradient(135deg, #fffbf0 0%, #fff8e1 100%);
+    border-left: 4px solid #f9a825;
+    padding: 16px 18px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 1.7;
+    box-shadow: 0 2px 6px rgba(249,168,37,0.12);
+    color: #333;
+  }
+  
+  .script-title {
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-size: 15px;
+    color: #d68000;
+    letter-spacing: 0.3px;
+  }
+  
+  .script-box strong {
+    color: #d68000;
+  }
+  
+  /* Contact Cards */
+  .list-container {
+    margin-bottom: 20px;
+  }
+  
+  .row {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    display: grid;
+    grid-template-columns: 32px 1fr auto auto;
+    gap: 10px;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  
+  .row:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  }
+  
+  .sr {
+    font-weight: 700;
+    color: #666;
+    font-size: 15px;
+  }
+  
+  .name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a1a1a;
+    line-height: 1.4;
+  }
+  
+  /* Call Button */
+  .call-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-align: center;
+    background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%);
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 13px;
+    box-shadow: 0 2px 6px rgba(46,125,50,0.25);
+    transition: all 0.2s ease;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    white-space: nowrap;
+  }
+  
+  .call-btn:active {
+    background: linear-gradient(135deg, #1b5e20 0%, #0d4714 100%);
+    transform: scale(0.97);
+    box-shadow: 0 1px 3px rgba(46,125,50,0.3);
+  }
+  
+  /* WhatsApp Button */
+  .wa-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-align: center;
+    background: linear-gradient(135deg, #25D366 0%, #1ebe57 100%);
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 13px;
+    box-shadow: 0 2px 6px rgba(37,211,102,0.25);
+    transition: all 0.2s ease;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    white-space: nowrap;
+  }
+  
+  .wa-btn:active {
+    background: linear-gradient(135deg, #1ebe57 0%, #17a347 100%);
+    transform: scale(0.97);
+    box-shadow: 0 1px 3px rgba(37,211,102,0.3);
+  }
+
+  .status.called {
+  background:#e8f5e9;
+  color:#2e7d32;
+  padding:4px 8px;
+  border-radius:6px;
+  font-size:12px;
+  font-weight:600;
+}
+.called-badge {
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+  
+  /* Icon sizing */
+  .call-btn i,
+  .wa-btn i {
+    font-size: 14px;
+  }
+  
+  /* Loading State */
+  .list-container.loading {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+    font-size: 15px;
+  }
+  
+  /* Responsive adjustments for very small screens */
+  @media (max-width: 360px) {
+    .header h2 {
+      font-size: 17px;
+    }
+    
+    .call-btn,
+    .wa-btn {
+      font-size: 14px;
+      padding: 12px 0;
+    }
+    
+    .name {
+      font-size: 15px;
+    }
+  }
+  
+  /* Larger phones */
+  @media (min-width: 420px) {
+    .container {
+      padding: 16px;
+    }
+    
+    .row {
+      padding: 16px 18px;
+    }
+    
+    .call-btn,
+    .wa-btn {
+      padding: 14px 0;
+      font-size: 16px;
+    }
+  }
+
+  .volunteer-section {
+    background: #ffffff;
+    padding: 12px 16px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    font-size: 16px;
+    color: #555;
+  }
+  
+  .volunteer-section strong {
+    color: #1a1a1a;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <img src="./lvjst-logo.png" alt="Rushabhayan Logo">
+    <h2>LVJST <br>CALL</h2>
+  </div>
+
+  <div class="volunteer-section">
+    Volunteer Name: <strong id="volName"></strong>
+  </div>
+
+  <div class="script-box">
+    <div class="script-title">📞 Script:</div>
+    🚩 निवडणूक प्रचार संदेश 🚩 <br>
+    सप्रेम नमस्कार, 🙏 <br><br>
+    नवी मुंबई महानगरपालिका निवडणूक २०२६ साठी आपले आशीर्वाद आणि समर्थन मागण्यासाठी आम्ही सज्ज आहोत.
+    नव्या जोमाने, नव्या ध्येयाने... आपल्या परिसराच्या सर्वांगीण विकासासाठी आणि उज्ज्वल भविष्यासाठी आम्हाला साथ द्या!
+    <br><br>
+    🗳️ मतदान दिनांक: <strong>१५ जानेवारी २०२६</strong> 🪷 निशाणी: कमळ (BJP)
+    <br><br>
+    आपले उमेदवार:<br>
+    <strong>👨‍💼 श्री. प्रकाश (भाऊ) मोरे</strong><br>
+    <strong>👩‍💼 सौ. शिल्पा प्रकाश मोरे</strong>
+    <br><br>
+    <strong>"आपला माणूस! आपला भाऊ!!"</strong>
+  </div>
+
+  <div class="list-container loading" id="list">
+    Loading contacts...
+  </div>
+</div>
+
+<script>
+// ================= CONFIG =================
+const CONTACTS_PER_VOLUNTEER = 100;
+
+// ================= VOLUNTEERS =================
+const volunteerMap = {
+  volunteer1: 0,
+  volunteer2: 1,
+  volunteer3: 2,
+  volunteer4: 3,
+  volunteer5: 4,
+  volunteer6: 5,
+  volunteer7: 6,
+  volunteer8: 7,
+  volunteer9: 8,
+  volunteer10: 9,
+  volunteer11: 10,
+  volunteer12: 11,
+  volunteer13: 12,
+  volunteer14: 13,
+  volunteer15: 14,
+  volunteer16: 15,
+  volunteer17: 16
+};
+
+// ================= URL PARAM =================
+const params = new URLSearchParams(window.location.search);
+const volunteerKey = (params.get("v") || "").toLowerCase();
+
+// ================= DOM =================
+const volNameEl = document.getElementById("volName");
+const listEl = document.getElementById("list");
+const scriptBox = document.querySelector(".script-box");
+
+// ================= VALIDATION =================
+if (!volunteerMap.hasOwnProperty(volunteerKey)) {
+  volNameEl.innerText = "";
+  scriptBox.style.display = "none";
+  listEl.classList.remove("loading");
+  listEl.innerHTML = `
+    <div style="text-align:center;padding:30px;color:#d32f2f;font-weight:600;">
+      🚫 Volunteer not found<br>
+      <small style="color:#777;">Invalid or unauthorized link</small>
+    </div>
+  `;
+  throw new Error("Invalid volunteer");
+}
+
+// ================= VOLUNTEER RANGE =================
+const volunteerIndex = volunteerMap[volunteerKey];
+const startIndex = volunteerIndex * CONTACTS_PER_VOLUNTEER;
+const endIndex = startIndex + CONTACTS_PER_VOLUNTEER;
+
+volNameEl.innerText = volunteerKey.toUpperCase();
+
+// ================= MESSAGE =================
+const MESSAGE = `
+🚩 निवडणूक प्रचार संदेश 🚩
+सप्रेम नमस्कार, 🙏
+नवी मुंबई महानगरपालिका निवडणूक २०२६ साठी आपले आशीर्वाद आणि समर्थन मागण्यासाठी आम्ही सज्ज आहोत.
+🗳️ मतदान दिनांक: १५ जानेवारी २०२६
+`.trim();
+
+const encodedMessage = encodeURIComponent(MESSAGE);
+
+// ================= HELPERS =================
+function getCallKey(phone) {
+  return `called_${volunteerKey}_${phone}`;
+}
+
+function markCalled(phone, btn) {
+  localStorage.setItem(getCallKey(phone), "true");
+
+  if (!btn.parentElement.querySelector(".called-badge")) {
+    const badge = document.createElement("span");
+    badge.className = "called-badge";
+    badge.innerText = "CALLED";
+    btn.parentElement.appendChild(badge);
+  }
+
+  trackCall(btn.dataset.name, phone);
+}
+
+function trackCall(name, phone) {
+  fetch("https://script.google.com/macros/s/AKfycby_497bE4f96xxoSxG5-iOxHqNHYR9xb0N25WpLArn4bwl37Wnp1tdzsh78u2T4j49Y8w/exec", {
+    method: "POST",
+    body: JSON.stringify({
+      volunteer: volunteerKey,
+      name,
+      phone,
+      status: "called"
+    })
+  }).catch(() => {});
+}
+
+// ================= FETCH CONTACTS =================
+fetch("https://docs.google.com/spreadsheets/d/1QXUuzeAkqEUhul7Cpmz1kowOkrjh530VvCZqfWrCSUI/export?format=csv&gid=0")
+  .then(res => res.text())
+  .then(csv => {
+    const rows = csv.split("\n").slice(1).slice(startIndex, endIndex).filter(r => r.trim());
+    listEl.classList.remove("loading");
+    listEl.innerHTML = "";
+
+    rows.forEach((row, i) => {
+      const [name, rawPhone] = row.split(",");
+      const digits = rawPhone.replace(/\D/g, "");
+      const isCalled = localStorage.getItem(getCallKey(digits)) === "true";
+
+      listEl.innerHTML += `
+        <div class="row">
+          <div class="sr">${startIndex + i + 1}</div>
+          <div class="name">${name}</div>
+
+          <a class="call-btn"
+             href="tel:${digits}"
+             data-name="${name}"
+             onclick="markCalled('${digits}', this)">
+             <i class="fas fa-phone"></i> Call
+          </a>
+
+          <a class="wa-btn"
+             href="https://api.whatsapp.com/send?phone=${digits}&text=${encodedMessage}"
+             target="_blank">
+             <i class="fab fa-whatsapp"></i>
+          </a>
+
+          ${isCalled ? `<span class="called-badge">CALLED</span>` : ""}
+        </div>
+      `;
+    });
+  })
+  .catch(() => {
+    listEl.classList.remove("loading");
+    listEl.innerHTML = `<div style="text-align:center;color:#d32f2f;">⚠️ Failed to load contacts</div>`;
+  });
+</script>
+</body>
+</html>
