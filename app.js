@@ -40,26 +40,26 @@ const VOLUNTEER_MAP = {
     siddharth: 10,
     parv: 11,
     keval: 12,
-    N1: 13,
-    N2: 14,
-    N3: 15,
-    N4: 16,
-    N5: 17,
-    N6: 18,
-    N7: 19,
-    N8: 20,
-    N9: 21,
-    N10: 22,
-    N11: 23,
-    N12: 24,
-    N13: 25,
-    N14: 26,
-    N15: 27,
-    N16: 28,
-    N17: 29,
-    N18: 30,
-    N19: 31,
-    N20: 32
+    n1: 13,
+    n2: 14,
+    n3: 15,
+    n4: 16,
+    n5: 17,
+    n6: 18,
+    n7: 19,
+    n8: 20,
+    n9: 21,
+    n10: 22,
+    n11: 23,
+    n12: 24,
+    n13: 25,
+    n14: 26,
+    n15: 27,
+    n16: 28,
+    n17: 29,
+    n18: 30,
+    n19: 31,
+    n20: 32
 };
 
 // ================= STATE =================
@@ -196,22 +196,20 @@ function renderError(msg) {
 function renderContacts() {
     UI.contactList.innerHTML = "";
 
-    // Show only PENDING contacts (not called yet)
-    const pendingContacts = State.contacts.filter(c => !c.isCalled);
-
-    if (pendingContacts.length === 0) {
-        UI.contactList.innerHTML = `<div class="empty-state"><p>No contacts assigned or all completed! 🎉</p></div>`;
+    if (State.contacts.length === 0) {
+        UI.contactList.innerHTML = `<div class="empty-state"><p>No contacts assigned.</p></div>`;
         return;
     }
 
-    pendingContacts.forEach(contact => {
+    State.contacts.forEach(contact => {
         const card = document.createElement("div");
-        card.className = `contact-card fade-in`;
+        card.className = `contact-card ${contact.isCalled ? "called" : ""} fade-in`;
         card.id = `card-${contact.phone}`;
 
         // Status text
-        // (Simplified since we only show pending now, but keeping structure if we revert)
-        const statusText = `<span class="contact-status"><i class="far fa-circle"></i> PENDING</span>`;
+        const statusText = contact.isCalled ?
+            `<span class="contact-status"><i class="fas fa-check"></i> DONE</span>` :
+            `<span class="contact-status"><i class="far fa-circle"></i> PENDING</span>`;
 
         // WhatsApp Link
         const waLink = `https://api.whatsapp.com/send?phone=${contact.phone}&text=${encodeURIComponent(CONFIG.MESSAGE_TEMPLATE)}`;
@@ -263,21 +261,10 @@ window.handleCall = function (phone, name) {
         // 3. Update UI Card immediately (optimistic UI)
         const card = document.getElementById(`card-${phone}`);
         if (card) {
-            // Animate removal
-            card.style.transition = "all 0.5s ease-out";
-            card.style.opacity = "0";
-            card.style.transform = "translateX(50px)"; // Slide right
-            card.style.maxHeight = "0";
-            card.style.padding = "0";
-            card.style.marginTop = "0";
-
-            // Remove from DOM after animation
-            setTimeout(() => {
-                card.remove();
-                // Check if list is empty, show empty state if so
-                const remaining = document.querySelectorAll('.contact-card').length;
-                if (remaining === 0) renderContacts();
-            }, 500);
+            card.classList.add("called");
+            const statusEl = card.querySelector(".contact-status");
+            statusEl.innerHTML = `<i class="fas fa-check"></i> DONE`;
+            statusEl.parentElement.innerHTML = `<span class="serial-badge">#${contact.id}</span> ${statusEl.outerHTML}`; // hacky re-render
         }
 
         showToast("Call marked as completed ✔");
