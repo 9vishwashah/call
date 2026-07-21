@@ -8,8 +8,8 @@ const CONFIG = {
     CONTACTS_PER_VOLUNTEER: 100,
     // If running locally (file://), use a proxy to bypass CORS errors. Otherwise use direct link.
     SHEET_CSV_URL: window.location.protocol === 'file:'
-        ? "https://api.allorigins.win/raw?url=" + encodeURIComponent("https://docs.google.com/spreadsheets/d/1QXUuzeAkqEUhul7Cpmz1kowOkrjh530VvCZqfWrCSUI/export?format=csv&gid=0")
-        : "https://docs.google.com/spreadsheets/d/1QXUuzeAkqEUhul7Cpmz1kowOkrjh530VvCZqfWrCSUI/export?format=csv&gid=0",
+        ? "https://api.allorigins.win/raw?url=" + encodeURIComponent("https://docs.google.com/spreadsheets/d/1QXUuzeAkqEUhul7Cpmz1kowOkrjh530VvCZqfWrCSUI/export?format=csv&gid=1776207677")
+        : "https://docs.google.com/spreadsheets/d/1QXUuzeAkqEUhul7Cpmz1kowOkrjh530VvCZqfWrCSUI/export?format=csv&gid=1776207677",
     TRACKING_URL: "https://script.google.com/macros/s/AKfycby_497bE4f96xxoSxG5-iOxHqNHYR9xb0N25WpLArn4bwl37Wnp1tdzsh78u2T4j49Y8w/exec",
     MESSAGE_TEMPLATE: `
 !!श्री श्रैयांशनाथ नम:!!
@@ -68,6 +68,33 @@ const VOLUNTEER_MAP = {
     n19: 31,
     n20: 32
 };
+
+const SAMPLE_CONTACTS = [
+    { id: 1, name: "Pakshal Jain", phone: "8591911797" },
+    { id: 2, name: "Mamta Bhandari", phone: "9819037174" },
+    { id: 3, name: "Tanu Jain", phone: "9833399129" },
+    { id: 4, name: "Rashmita Jain", phone: "9833390144" },
+    { id: 5, name: "Maulik Kumar", phone: "8000133016" },
+    { id: 6, name: "Rinku Jain", phone: "9619886777" },
+    { id: 7, name: "Alpesh Shah", phone: "9324503214" },
+    { id: 8, name: "Vijay Mehta", phone: "9930108172" },
+    { id: 9, name: "Ashika Jain", phone: "9769719294" },
+    { id: 10, name: "Silvi Jain", phone: "9619886777" },
+    { id: 11, name: "Nisha Kothari", phone: "9769235421" },
+    { id: 12, name: "Shilpa Mutha", phone: "9821321010" },
+    { id: 13, name: "Rakhi Sonigara", phone: "9326903020" },
+    { id: 14, name: "Kavita Mutha", phone: "9324007931" },
+    { id: 15, name: "Amit Singhi", phone: "9820537874" },
+    { id: 16, name: "Anil Munoth", phone: "7387513559" },
+    { id: 17, name: "Dhiraj Jain", phone: "9833017806" },
+    { id: 18, name: "Dilip Jain", phone: "9594688425" },
+    { id: 19, name: "Dinesh Kothari", phone: "8097604229" },
+    { id: 20, name: "Manish Gundecha", phone: "9819580002" },
+    { id: 21, name: "Mohan Jain", phone: "9930824089" },
+    { id: 22, name: "Sanjay Gujarathi", phone: "9869501902" },
+    { id: 23, name: "Suparas Jain", phone: "9819012815" },
+    { id: 24, name: "Nitesh Jain", phone: "9820463003" }
+];
 
 // ================= STATE =================
 const State = {
@@ -139,6 +166,20 @@ function setupScriptAccordion() {
 
 function fetchContacts() {
     renderLoading(true);
+
+    // If the page is opened locally or if the sheet proxy is unavailable,
+    // use a static sample contact list so the volunteer view still renders.
+    if (window.location.protocol === 'file:') {
+        State.contacts = SAMPLE_CONTACTS.map(contact => ({
+            ...contact,
+            isCalled: localStorage.getItem(`called_${State.volunteerKey}_${contact.phone}`) === "true"
+        }));
+
+        renderContacts();
+        updateProgress();
+        renderLoading(false);
+        return;
+    }
 
     fetch(CONFIG.SHEET_CSV_URL)
         .then(res => res.text())
